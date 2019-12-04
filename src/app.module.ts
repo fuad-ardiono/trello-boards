@@ -6,7 +6,12 @@ import { UserModule } from './user/user.module';
 import { User } from './user/user.entity';
 import { UserController } from './user/user.controller';
 import { UserService } from './user/user.service';
+import { BoardModule } from './board/board.module';
+import { Board } from './board/board.entity';
+import { BoardController } from './board/board.controller';
+import { BoardService } from './board/board.service';
 import { RedisModule } from 'nestjs-redis';
+import { BoardGateway } from './board/board.gateway';
 import * as dotenv from 'dotenv';
 import * as fs from 'fs';
 
@@ -19,7 +24,7 @@ const DbConfig = TypeOrmModule.forRoot({
   username: envData.DB_USER,
   password: envData.DB_PASS,
   database: envData.DB_NAME,
-  entities: [User],
+  entities: [User, Board],
   synchronize: true,
   logging: true,
   logger: 'advanced-console',
@@ -34,8 +39,8 @@ const redisOptions = {
 };
 
 @Module({
-  imports: [DbConfig, RedisModule.register(redisOptions), UserModule],
-  controllers: [AppController, UserController],
-  providers: [AppService, UserService],
+  imports: [DbConfig, RedisModule.register(redisOptions), UserModule, BoardModule],
+  controllers: [AppController, UserController, BoardController],
+  providers: [AppService, UserService, BoardService, BoardGateway],
 })
 export class AppModule {}
