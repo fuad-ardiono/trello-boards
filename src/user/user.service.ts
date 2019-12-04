@@ -17,7 +17,8 @@ export class UserService {
     user.created_at = new Date();
     user.updated_at = new Date();
     user.password = hashSync(payload.password, 10);
-
-    return await this.userRepository.save(user);
+    const newUser = await this.userRepository.save(user);
+    const userRecord = await this.userRepository.findOne({ id: newUser.id });
+    return userRecord;
   }
 }
