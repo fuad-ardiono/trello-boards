@@ -1,4 +1,5 @@
 import { IsEmail, IsNotEmpty, IsString } from 'class-validator';
+import { User } from './user.entity';
 
 export class SignupUserDto {
   @IsEmail()
@@ -27,4 +28,9 @@ export class SigninUserDto {
 
   @IsString()
   displayName: string;
+}
+
+export class SigninResponseDto {
+  token: string;
+  user: User;
 }
